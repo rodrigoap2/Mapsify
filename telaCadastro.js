@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions } from 'react-native';
 
-export default class TelaLogin extends React.Component {
+export default class TelaCadastro extends React.Component {
   static navigationOptions = {
-    title:'Mapsify'
+    title:'Mapsify',
   }
-
   render() {
-    return (
+    return(
       <View style={styles.container}>
-        <TouchableOpacity style={styles.botaoLogin}>
-          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaMapas");}}> LOGIN </Text>
-        </TouchableOpacity>
+        <Text style={{color:"#ffffff"}}>Tela do cadastro</Text>
       </View>
     );
   }
