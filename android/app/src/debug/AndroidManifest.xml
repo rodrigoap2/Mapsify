@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
-    <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" />
+    <uses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION"></uses-permission>
+    <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDtVroWGcgsHg6Jt97laHORTZfs4UpzMzk" />
+    </application>
 </manifest>

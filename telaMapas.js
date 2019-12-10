@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions } from 'react-native';
 
+import  MapView  from 'react-native-maps'
+
 export default class TelaMapas extends React.Component {
   static navigationOptions = {
     title:'Mapsify',
@@ -8,7 +10,18 @@ export default class TelaMapas extends React.Component {
   render() {
   	return(
   		<View style={styles.container}>
-  			<Text style={{color:"#ffffff"}}>Tela dos mapas</Text>
+  			<Text style={{color:"#ffffff"}}>Tela dos mapasss</Text>
+        <MapView
+              style=""
+              loadingEnabled={true}
+              region={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+              }}
+             >
+        </MapView>       
   			<TouchableOpacity style={styles.botaoLogin}>
           		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaCadastro");}}> Tela do cadastro</Text>
         	</TouchableOpacity>
