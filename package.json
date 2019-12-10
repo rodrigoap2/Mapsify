@@ -10,12 +10,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "expo": "~33.0.0",
     "expo-constants": "^8.0.0",
+    "google-maps-react": "^2.0.2",
     "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react-native": "^0.59.8",
     "react-navigation": "2.18.3"
   },
   "devDependencies": {
+    "babel-preset-expo": "~8.0.0",
     "@babel/core": "^7.7.5",
     "@babel/runtime": "^7.7.6",
     "@react-native-community/eslint-config": "^0.0.5",
