@@ -4,22 +4,11 @@ import { AuthSession } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import { toStatement } from '@babel/types';
-var SpotifyWebApi = require('spotify-web-api-node');
+import spotifyApi from './spotify';
+import {AsyncStorage} from 'react-native';
 
 const CLIENT_ID = 'fa0bb4ef26804051a045aaef2fcba4b2';
-export const scopes = [
-    "user-read-private",
-     "user-read-email"
-];
 
-var credentials = {
-  clientId: 'fa0bb4ef26804051a045aaef2fcba4b2',
-  clientSecret: 'af0d0cbcc1404412994107efa6462256',
-  redirectUri: "https://auth.expo.io/@/Mapsify"
-};
-
-
-var spotifyApi = new SpotifyWebApi(credentials);
 
 export default class App extends Component {
   state = {
@@ -32,7 +21,7 @@ export default class App extends Component {
   handleSpotifyLogin = async () => {
     let redirectUrl = AuthSession.getRedirectUrl();
     let results = await AuthSession.startAsync({
-      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=user-read-email&response_type=token`
+      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=user-read-email%20playlist-modify-public%20playlist-modify-private&response_type=token`
     });
     if (results.type !== 'success') {
       console.log(results.type);
@@ -40,12 +29,14 @@ export default class App extends Component {
     } else {
       spotifyApi.setAccessToken(results.params.access_token);
       this.setState({acess_token : results.params.access_token })
+      await AsyncStorage.setItem('access_token', results.params.access_token)
       const userInfo = await axios.get(`https://api.spotify.com/v1/me`, {
         headers: {
           "Authorization": `Bearer ${results.params.access_token}`
         }
       });
       this.setState({ userInfo: userInfo.data });
+      await AsyncStorage.setItem('userId', userInfo.data.id);
       ToastAndroid.show(JSON.stringify(results.params.access_token), ToastAndroid.LONG);
       this.props.navigation.navigate("TelaMapas");
     }

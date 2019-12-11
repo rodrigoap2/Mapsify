@@ -1,9 +1,11 @@
 import * as React from 'react';
-import {Platform, Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions } from 'react-native';
+import {Platform, Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, ToastAndroid } from 'react-native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import  MapView  from 'react-native-maps'
+import spotifyApi from './spotify';
+
 
 export default class TelaMapas extends React.Component {
   static navigationOptions = {
@@ -21,6 +23,7 @@ export default class TelaMapas extends React.Component {
       }
     };
   }
+
 
   componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -71,6 +74,9 @@ export default class TelaMapas extends React.Component {
            <View style={styles.bottom}>
 	  			<TouchableOpacity style={styles.botaoLogin}>  
 	          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaCadastro");}}> Tela do cadastro</Text>
+	        	</TouchableOpacity>
+            <TouchableOpacity style={styles.botaoLogin}>  
+	          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={this.play}> Criar Playlist</Text>
 	        	</TouchableOpacity>
         	</View>
   		</View>

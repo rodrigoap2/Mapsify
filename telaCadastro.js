@@ -1,10 +1,33 @@
 import * as React from 'react';
 import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, TextInput } from 'react-native';
+import axios from 'axios';
+import {AsyncStorage} from 'react-native';
 
 export default class TelaCadastro extends React.Component {
   static navigationOptions = {
     title:'Mapsify',
   }
+
+  criarPlaylist = async (nome) => {
+    var user =  await AsyncStorage.getItem('userId');
+    var token = await AsyncStorage.getItem('access_token');
+    var data = {'name': nome ,'description':'New playlist description','public':true};
+    var d = JSON.stringify(data); 
+    
+    await axios({
+      url: `https://api.spotify.com/v1/users/${user}/playlists`,
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      data : d
+    }).catch(function (err){
+      ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
+    })
+  }
+
+
 
   clicar = () => {
     
