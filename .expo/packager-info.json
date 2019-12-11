@@ -1,10 +1,10 @@
 {
   "webpackServerPort": 19006,
   "packagerPort": 19001,
-  "packagerPid": 17248,
+  "packagerPid": 16220,
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://2x-22a.aldibergjr.mapsify.exp.direct",
   "packagerNgrokUrl": "https://packager.2x-22a.aldibergjr.mapsify.exp.direct",
-  "ngrokPid": 12196
+  "ngrokPid": 9284
 }
