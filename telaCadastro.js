@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, TextInput } from 'react-native';
+import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, TextInput, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
 
@@ -26,11 +26,15 @@ export default class TelaCadastro extends React.Component {
       ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
     })
   }
-
-
-
-  clicar = () => {
     
+  constructor(props) {
+    super(props);
+    this.state = {
+      nome: '',
+      endereco: '',
+      artistas: '',
+      generos: ''
+    };
   }
 
   render() {
@@ -40,28 +44,30 @@ export default class TelaCadastro extends React.Component {
         style={styles.input}
         placeholder="Diga o nome do local"
         placeholderTextColor="#212121"
-        onChangeText={text => this.state.name = text}
+        onChangeText={text => this.setState({nome: text})}
       />
       <TextInput
         style={styles.input}
         placeholder="Gêneros musicais escutados nesse local"
         placeholderTextColor="#212121"
-        onChangeText={text => this.state.generos = text}
+        onChangeText={text => this.setState({generos: text})}
       />
       <TextInput
         style={styles.input}
         placeholder="Artistas escutados nesse local"
         placeholderTextColor="#212121"
-        onChangeText={text => this.state.artistas = text}
+        onChangeText={text => this.setState({artistas: text})}
       />
       <TextInput
         style={styles.input}
         placeholder="Endereço"
         placeholderTextColor="#212121"
-        onChangeText={text => this.state.endereco = text}
+        onChangeText={text => this.setState({endereco: text})}
       />
       <TouchableOpacity style={styles.botaoLogin}>
-          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={this.clicar()}> Cadastrar Local </Text>
+          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {
+            ToastAndroid.show(this.state.nome  + ' ' + this.state.generos + ' ' +this.state.artistas + ' ' + this.state.endereco,300);
+          }}> Cadastrar Local </Text>
       </TouchableOpacity>
       </View>
     );

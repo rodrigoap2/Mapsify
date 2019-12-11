@@ -79,9 +79,10 @@ export default class App extends Component {
 
   render() {
     return (
-
       <View style={styles.container}>
-          
+      <TouchableOpacity>
+          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaMapas");}}> LOGIN </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleSpotifyLogin}
