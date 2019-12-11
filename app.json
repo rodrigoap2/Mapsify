@@ -12,7 +12,15 @@
       "web"
     ],
     "version": "1.0.0",
-    "orientation": "portrait"
+    "orientation": "portrait",
+  "android": {
+      "package": "com.ccdcLTDA.mapsify",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDtVroWGcgsHg6Jt97laHORTZfs4UpzMzk"
+        }
+      }
+    }
   }
 }
 
