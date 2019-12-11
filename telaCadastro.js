@@ -14,7 +14,7 @@ export default class TelaCadastro extends React.Component {
     var data = {'name': nome ,'description':'New playlist description','public':true};
     var d = JSON.stringify(data); 
     
-    await axios({
+    return await axios({
       url: `https://api.spotify.com/v1/users/${user}/playlists`,
       method: 'post',
       headers: {
@@ -22,11 +22,52 @@ export default class TelaCadastro extends React.Component {
         'Authorization': `Bearer ${token}`
       },
       data : d
+    }).then(function (res){
+      return res.data.id;
+    }).catch(function (err){
+      ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
+    })
+  }
+
+  getArtistTop10 = async (artist_id) => {
+    var token = await AsyncStorage.getItem('access_token');
+    return await axios({
+        url : `https://api.spotify.com/v1/artists/${artist_id}/top-tracks?country=BR`,
+        method : 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(function (result){
+        var musicas = {uris : []}
+        result.data.tracks.forEach(function (song){
+            musicas.uris.push(song.uri)
+        })
+        return musicas;
+    }).catch(function (err){
+      ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
+    })
+  
+  }
+
+  addMusicsToPlaylist = async (playlist_id, musics) => {
+    var token = await AsyncStorage.getItem('access_token');
+    return await axios({
+      url : `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      method : 'post',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+      data : musics
+    }).then(function (res){
+      return res.status;
     }).catch(function (err){
       ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
     })
   }
     
+
   constructor(props) {
     super(props);
     this.state = {
