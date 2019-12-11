@@ -68,11 +68,11 @@ export default class TelaMapas extends React.Component {
               }
              >
         </MapView>    
-           
-  			<TouchableOpacity style={styles.botaoLogin}>
-        <Text>{this.state.errorMessage}</Text>   
-          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaCadastro");}}> Tela do cadastro</Text>
-        	</TouchableOpacity>
+           <View style={styles.bottom}>
+	  			<TouchableOpacity style={styles.botaoLogin}>  
+	          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaCadastro");}}> Tela do cadastro</Text>
+	        	</TouchableOpacity>
+        	</View>
   		</View>
   	);
   }
@@ -101,5 +101,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0
-   }
+   },
+   bottom: {
+	  flex: 1,
+	  justifyContent: 'flex-end',
+	  marginBottom: 36
+	}
 });
