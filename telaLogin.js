@@ -15,7 +15,7 @@ export const scopes = [
 var credentials = {
   clientId: 'fa0bb4ef26804051a045aaef2fcba4b2',
   clientSecret: 'af0d0cbcc1404412994107efa6462256',
-  redirectUri: "https://auth.expo.io/@/Mapsify"
+  redirectUri: "https://auth.expo.io/@cdbm/Mapsify"
 };
 
 
@@ -88,9 +88,7 @@ export default class App extends Component {
 
   render() {
     return (
-
       <View style={styles.container}>
-          
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleSpotifyLogin}
