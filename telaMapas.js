@@ -1,10 +1,12 @@
 import * as React from 'react';
-import {Platform, Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, ToastAndroid } from 'react-native';
+import {Platform, Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, ToastAndroid, WebView, Linking  } from 'react-native';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
-import  MapView  from 'react-native-maps'
+import  MapView from 'react-native-maps'
 import spotifyApi from './spotify';
+
+
 
 
 export default class TelaMapas extends React.Component {
@@ -20,7 +22,10 @@ export default class TelaMapas extends React.Component {
         longitude: -122.4324,
         latitudeDelta:0.025,
         longitudeDelta:0.025
-      }
+      },
+      markers: [
+        
+      ]
     };
   }
 
@@ -32,9 +37,43 @@ export default class TelaMapas extends React.Component {
       });
     } else {
       this._getLocationAsync();
+      this._getPlacesAsync();
     }
   }
-
+  //
+  _getPlacesAsync = async () => {
+    fetch('https://mapsifyserver.herokuapp.com/places', {method: 'GET'}).then(res => res.json()).then(collection => {
+        collection.forEach(place => {
+            const places = this.state.markers;
+            let index = 0;
+            places.push(
+              (<MapView.Marker 
+              coordinate={
+                  {
+                    latitude: place.lat,
+                    longitude: place.lng,
+                    latitudeDelta:0.025,
+                    longitudeDelta:0.025
+                  }
+              }
+              key={index++}
+              title={place.name}
+              description={"description"}
+              onCalloutPress={() => Linking.openURL(place.playlistLink).catch(err => console.log(err))}
+            >
+            <MapView.Callout>
+              <View>
+                <Text>{place.name}</Text>
+                <Text>Uma playlist feita só para esse lugar.</Text>
+                <Text>Clique acessar!</Text>
+              </View>
+            </MapView.Callout>
+            </MapView.Marker>)
+            )
+            this.setState({markers:places});
+        });
+    })
+  }
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -46,30 +85,24 @@ export default class TelaMapas extends React.Component {
     let location = await Location.getCurrentPositionAsync({});
     const curr = this.state.ownPosition;
     this.setState({ownPosition: {...curr, latitude: location.coords.latitude, longitude: location.coords.longitude}   });
+  
   };
 
   render() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(function(position) {
-  //       var pos = {
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude
-  //       }; 
-  //       this.setState({ownPosition: pos});    
-  //    })  
-  // }
-
+    const markers = this.state.markers;
   	return(
      
   		<View style={styles.container}>
   			<Text style={{color:"#ffffff"}}>Tela dos mapasss</Text>
         <MapView
+              showsUserLocation={true}
               style={styles.map}
               loadingEnabled={true}
               region={
               this.state.ownPosition
               }
              >
+             {markers}
         </MapView>    
            <View style={styles.bottom}>
 	  			<TouchableOpacity style={styles.botaoLogin}>  
