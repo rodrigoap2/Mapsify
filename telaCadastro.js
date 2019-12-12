@@ -2,10 +2,13 @@ import * as React from 'react';
 import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, TextInput, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
+import Geocoder from 'react-native-geocoding';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDtVroWGcgsHg6Jt97laHORTZfs4UpzMzk';
 
 export default class TelaCadastro extends React.Component {
   static navigationOptions = {
     title:'Mapsify',
+    headerRight: (<View/>),
   }
 
   criarPlaylist = async (nome) => {
@@ -66,16 +69,29 @@ export default class TelaCadastro extends React.Component {
       ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
     })
   }
-    
 
   constructor(props) {
     super(props);
     this.state = {
-      nome: '',
+      name: '',
       endereco: '',
       artistas: '',
-      generos: ''
+      generos: '',
+      lat:'',
+      lng:'',
+      playlistLink:''
     };
+  }
+
+  onButtonPress = async () => {
+    var getLatLng = fetch('http://open.mapquestapi.com/geocoding/v1/address?key=8z2jVfQKrkEunA3Cv50A7ERkYYFXQAmc&location=' + this.state.endereco,{method:'GET'}).then(res => res.json()).then(obj => {this.setState({lat:obj.results[0].locations[0].latLng.lat, lng:obj.results[0].locations[0].latLng.lng})})
+    await getLatLng;
+    const {name,lat,lng,playlistLink} = this.state
+    console.log(lat)
+    fetch('https://mapsifyserver.herokuapp.com/place', {method:'POST', 
+      headers:{'Accept': 'application/json', 'Content-Type': 'application/json'}, 
+      body: JSON.stringify({name:name,lat:lat,lng:lng,playlistLink:playlistLink})
+    })
   }
 
   render() {
@@ -85,7 +101,7 @@ export default class TelaCadastro extends React.Component {
         style={styles.input}
         placeholder="Diga o nome do local"
         placeholderTextColor="#212121"
-        onChangeText={text => this.setState({nome: text})}
+        onChangeText={text => this.setState({name: text})}
       />
       <TextInput
         style={styles.input}
@@ -105,10 +121,8 @@ export default class TelaCadastro extends React.Component {
         placeholderTextColor="#212121"
         onChangeText={text => this.setState({endereco: text})}
       />
-      <TouchableOpacity style={styles.botaoLogin}>
-          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {
-            ToastAndroid.show(this.state.nome  + ' ' + this.state.generos + ' ' +this.state.artistas + ' ' + this.state.endereco,300);
-          }}> Cadastrar Local </Text>
+      <TouchableOpacity style={styles.botaoLogin} onPress={this.onButtonPress}>
+          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}}> Cadastrar Local </Text>
       </TouchableOpacity>
       </View>
     );
