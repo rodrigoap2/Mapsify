@@ -12,6 +12,7 @@ import spotifyApi from './spotify';
 export default class TelaMapas extends React.Component {
   static navigationOptions = {
     title:'Mapsify',
+    headerRight: (<View/>),
   }
   constructor(props) {
     super(props);
@@ -83,6 +84,7 @@ export default class TelaMapas extends React.Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
+    console.log(location);
     const curr = this.state.ownPosition;
     this.setState({ownPosition: {...curr, latitude: location.coords.latitude, longitude: location.coords.longitude}   });
   

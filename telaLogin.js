@@ -10,7 +10,7 @@ import {AsyncStorage} from 'react-native';
 const CLIENT_ID = 'fa0bb4ef26804051a045aaef2fcba4b2';
 
 
-export default class App extends Component {
+export default class TelaLogin extends Component {
   state = {
     userInfo: null,
     didError: false,

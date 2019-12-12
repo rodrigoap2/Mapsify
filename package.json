@@ -16,6 +16,7 @@
     "expo-constants": "^8.0.0",
     "react": "16.9.0",
     "react-native": "^0.59.8",
+    "react-native-geocoding": "^0.4.0",
     "react-native-maps": "^0.26.1",
     "react-navigation": "2.18.3",
     "spotify-web-api-node": "^4.0.0"
