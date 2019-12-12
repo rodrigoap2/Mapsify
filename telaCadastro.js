@@ -2,10 +2,13 @@ import * as React from 'react';
 import { Button, Text, View, StyleSheet, TouchableOpacity, Icon, Dimensions, TextInput, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import {AsyncStorage} from 'react-native';
+import Geocoder from 'react-native-geocoding';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDtVroWGcgsHg6Jt97laHORTZfs4UpzMzk';
 
 export default class TelaCadastro extends React.Component {
   static navigationOptions = {
     title:'Mapsify',
+    headerRight: (<View/>),
   }
 
   criarPlaylist = async (nome) => {
@@ -106,10 +109,13 @@ export default class TelaCadastro extends React.Component {
       ToastAndroid.show("erro pra adicionar musicas", ToastAndroid.LONG)
     })
   }
-    
 
   lansandoABraba = async () => {
-    const {nome, endereco, artistas, generos} = this.state;
+    var getLatLng = fetch('http://open.mapquestapi.com/geocoding/v1/address?key=8z2jVfQKrkEunA3Cv50A7ERkYYFXQAmc&location=' + this.state.endereco,{method:'GET'}).then(res => res.json()).then(obj => {this.setState({lat:obj.results[0].locations[0].latLng.lat, lng:obj.results[0].locations[0].latLng.lng})})
+    await getLatLng;
+    console.log(lat)
+    const {nome, lat, lng, artistas, generos} = this.state;
+
     var playlist = await this.criarPlaylist(nome);
     var artistaID = await this.getArtistId(artistas);
     var musicasArtista = await this.getArtistTop10(artistaID);
@@ -123,8 +129,8 @@ export default class TelaCadastro extends React.Component {
 
     var dale = {
       name : nome,
-      lat : 1,
-      lng: 2,
+      lat : lat,
+      lng: lng,
       playlistLink : playlist.url
     }
 
@@ -148,12 +154,16 @@ export default class TelaCadastro extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nome: '',
+      name: '',
       endereco: '',
       artistas: '',
-      generos: ''
+      generos: '',
+      lat:'',
+      lng:'',
+      playlistLink:''
     };
   }
+
 
   render() {
     return (
@@ -162,7 +172,7 @@ export default class TelaCadastro extends React.Component {
         style={styles.input}
         placeholder="Diga o nome do local"
         placeholderTextColor="#212121"
-        onChangeText={text => this.setState({nome: text})}
+        onChangeText={text => this.setState({name: text})}
       />
       <TextInput
         style={styles.input}
