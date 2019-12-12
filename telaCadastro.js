@@ -32,6 +32,43 @@ export default class TelaCadastro extends React.Component {
     })
   }
 
+  getArtistId = async (artist_tag) => {
+    var token = await AsyncStorage.getItem('access_token');
+    return await axios({
+      url: ` https://api.spotify.com/v1/search?q=${encodeURIComponent(artist_tag)}&type=artist`,
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    }).then(function (res){
+        return (res.data.artists.items[0].id)
+    }).catch(function (err){
+      ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
+    })
+  }
+
+  getMusicByGenre = async (genre_tag) => {
+    var token = await AsyncStorage.getItem('access_token');
+    axios({
+      url: `https://api.spotify.com/v1/recommendations?seed_genres=${genre_tag}&market=BR&min_popularity=30`,
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    }).then(function (res){
+      var musicas = []
+      res.data.tracks.forEach(element => {
+          musicas.push(element.uri)
+      });
+      return musicas;
+    }).catch(function (err){
+      ToastAndroid.show(JSON.stringify(err), ToastAndroid.LONG)
+    })
+  }
+
+
   getArtistTop10 = async (artist_id) => {
     var token = await AsyncStorage.getItem('access_token');
     return await axios({
