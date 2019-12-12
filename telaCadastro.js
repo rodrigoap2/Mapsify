@@ -114,9 +114,9 @@ export default class TelaCadastro extends React.Component {
     var getLatLng = fetch('http://open.mapquestapi.com/geocoding/v1/address?key=8z2jVfQKrkEunA3Cv50A7ERkYYFXQAmc&location=' + this.state.endereco,{method:'GET'}).then(res => res.json()).then(obj => {this.setState({lat:obj.results[0].locations[0].latLng.lat, lng:obj.results[0].locations[0].latLng.lng})})
     await getLatLng;
     console.log(lat)
-    const {nome, lat, lng, artistas, generos} = this.state;
+    const {name, lat, lng, artistas, generos} = this.state;
 
-    var playlist = await this.criarPlaylist(nome);
+    var playlist = await this.criarPlaylist(name);
     var artistaID = await this.getArtistId(artistas);
     var musicasArtista = await this.getArtistTop10(artistaID);
     var musicaGeneros = await this.getMusicByGenre(generos);
@@ -128,7 +128,7 @@ export default class TelaCadastro extends React.Component {
     console.log(playlist)
 
     var dale = {
-      name : nome,
+      name : name,
       lat : lat,
       lng: lng,
       playlistLink : playlist.url
