@@ -55,10 +55,6 @@ export default class TelaLogin extends Component {
   displayResults = () => {
     { return this.state.userInfo ? (
       <View style={styles.userInfo}>
-        <Image
-          style={styles.profileImage}
-          source={ {'uri': this.state.userInfo.images[0].url} }
-        />
         <View>
           <ScrollView>
           <Text style={styles.userInfoText}> Acess Token</Text>
@@ -80,9 +76,6 @@ export default class TelaLogin extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <TouchableOpacity>
-          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaMapas");}}> LOGIN </Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleSpotifyLogin}

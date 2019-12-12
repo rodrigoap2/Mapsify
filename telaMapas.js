@@ -110,9 +110,6 @@ export default class TelaMapas extends React.Component {
 	  			<TouchableOpacity style={styles.botaoLogin}>  
 	          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaCadastro");}}> Tela do cadastro</Text>
 	        	</TouchableOpacity>
-            <TouchableOpacity style={styles.botaoLogin}>  
-	          		<Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={this.play}> Criar Playlist</Text>
-	        	</TouchableOpacity>
         	</View>
   		</View>
   	);
