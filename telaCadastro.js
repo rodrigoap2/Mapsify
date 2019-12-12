@@ -113,7 +113,7 @@ export default class TelaCadastro extends React.Component {
   lansandoABraba = async () => {
     var getLatLng = fetch('http://open.mapquestapi.com/geocoding/v1/address?key=8z2jVfQKrkEunA3Cv50A7ERkYYFXQAmc&location=' + this.state.endereco,{method:'GET'}).then(res => res.json()).then(obj => {this.setState({lat:obj.results[0].locations[0].latLng.lat, lng:obj.results[0].locations[0].latLng.lng})})
     await getLatLng;
-    console.log(lat)
+    ToastAndroid.show("Cadastrado com sucesso", 500);
     const {name, lat, lng, artistas, generos} = this.state;
 
     var playlist = await this.criarPlaylist(name);

@@ -85,6 +85,9 @@ export default class TelaLogin extends Component {
             Login with Spotify
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={{color:'#ffffff', fontWeight:'bold', fontSize: 18,}} onPress={() => {this.props.navigation.navigate("TelaMapas");}}> Refresh Map </Text>
+        </TouchableOpacity>
         {this.state.didError ?
           this.displayError() :
           this.displayResults()
